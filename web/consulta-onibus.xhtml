@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>Autoviação Pasa</title>
+            </f:facet>
+        </h:head>
+
+        <h:body>
+            <h:form >
+                <p:layout fullPage="true">
+                    <p:layoutUnit position="north" size="230" resizable="false" closable="false" collapsible="true">
+                        <h:graphicImage url="/banner.jpg" width="700" height="200"/>
+                                                <h:outputText value = " Logado como cliente: #{managedBeanClientes.cliente.nome} " 
+                                rendered="#{managedBeanClientes.login}"/> 
+                        <h:commandButton value = "Minha conta" action="dadospessoais-cliente" 
+                                         rendered="#{managedBeanClientes.login}"/>
+                        <h:commandButton value = "Sair" action="#{managedBeanClientes.logout()}" 
+                                         rendered="#{managedBeanClientes.login}"/>    
+                        
+                        <h:outputText value = " Logado como empresa: #{managedBeanEmpresa.empresa.nome} "
+                                rendered="#{managedBeanEmpresa.login}"/> 
+                        <h:commandButton value = "Minha conta" action="dadosjuridicos-empresa" 
+                                         rendered="#{managedBeanEmpresa.login}"/>
+                        <h:commandButton value = "Sair" action="#{managedBeanEmpresa.logout()}" 
+                                         rendered="#{managedBeanEmpresa.login}"/>
+                    </p:layoutUnit>
+
+                    <p:layoutUnit position="west" size="259" collapsible="true">
+                        <p:menu>
+                            <p:submenu label="Login" rendered="#{!managedBeanClientes.login and !managedBeanEmpresa.login}">
+                                <p:menuitem value="Cliente" outcome="login-cliente" />
+                                <p:menuitem value="Empresa" outcome="login-empresa"/>
+                            </p:submenu>
+                            <p:submenu label="Cadastre-se" rendered="#{!managedBeanClientes.login and !managedBeanEmpresa.login}">
+                                <p:menuitem value="Cliente" outcome="cadastro-cliente" />
+                                <p:menuitem value="Empresa" outcome="cadastro-empresa"/>
+                            </p:submenu>
+                            <p:submenu label="Minha Empresa" rendered="#{managedBeanEmpresa.login}">
+                                <p:menuitem value="Cadastrar Ônibus" outcome="cadastro-onibus"/>
+                                <p:menuitem value="Cadastrar Viagem" outcome="cadastro-viagem" />
+                            </p:submenu>
+                            <p:submenu label="Menu">
+                                <p:menuitem value="Inicio" outcome="index"/>
+                                <p:menuitem value="Quem Somos" outcome="quemsomos" />
+                                <p:menuitem value="Empresas Filiadas" outcome="lista-empresa"/>
+                                <p:menuitem value="Compra de Passagens" outcome="consulta-onibus" rendered="#{!managedBeanEmpresa.login}"/>
+                                <p:menuitem value="Minhas Compras" outcome="index" rendered="#{managedBeanClientes.login}"/>
+                            </p:submenu>
+                        </p:menu>
+                    </p:layoutUnit>
+                    <p:layoutUnit position="center">
+                        <c:if test="#{!managedBeanEmpresa.login}">
+                        <p:panel id="panel" header="Passo 1: Consulta de ônibus">  
+                            <h:panelGrid columns="2">  
+
+                                <h:outputLabel for="dt_lanc" value="Data: " />  
+                                <p:calendar id="dt_lanc" value="#{managedBeanViagem.viagem.data}" pattern="dd/MM/yyyy"/>  
+
+                                <h:outputLabel value="Origem " />  
+                                <p:selectOneMenu value="#{managedBeanViagem.viagem.origem}">
+                                    <f:selectItems value="#{managedBeanViagem.viagem.listaCidades}" />
+                                </p:selectOneMenu>
+
+                                <h:outputLabel value="Destino " />  
+                                <p:selectOneMenu value="#{managedBeanViagem.viagem.destino}">
+                                    <f:selectItems value="#{managedBeanViagem.viagem.listaCidades}" />
+                                </p:selectOneMenu>
+                                <h:commandButton value = "Avançar" action = "#{managedBeanViagem.consultaViagens()}"/>
+                            </h:panelGrid> 
+                            <p:messages showDetail="true"/>
+                        </p:panel>  
+                        </c:if>
+                    </p:layoutUnit>
+                </p:layout>
+            </h:form>
+        </h:body>
+    </f:view>
+</html>
+

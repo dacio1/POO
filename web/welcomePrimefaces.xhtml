@@ -1,0 +1,51 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>Autoviação Pasa</title>
+            </f:facet>
+        </h:head>
+
+        <h:body>
+
+            <p:layout fullPage="true">
+
+                <p:layoutUnit position="north" size="230" resizable="false" closable="false" collapsible="true">
+                        <h:graphicImage url="/banner.jpg" width="700" height="200"/>
+                        <h:outputText value = "Login: "/> 
+                        <p:inputMask mask="999.999.999-99" value = "#{managedBeanClientes.cliente.cpf}" requiredMessage="O CPF é obrigatório"/>
+                        <h:outputText value = " Senha: "/> 
+                        <p:password value = "#{managedBeanClientes.cliente.senha}" required="true"/>
+                        <h:commandButton value = "Entrar" action = "#{managedBeanClientes.loginCliente()}"/>
+                        <p:messages showDetail="true"/>
+                    </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="210" header="Left" collapsible="true">
+                    <p:menu>
+                        <p:submenu label="Menu">
+                            <p:menuitem value="Quem Somos" outcome="quemsomos" />
+                            <p:menuitem value="Empresas Filiadas" url="http://www.primefaces.org/documentation.html" />
+                            <p:menuitem value="Cadastre-se" outcome="cadastro" />
+                            <p:menuitem value="Compra de Passagens" url="http://forum.primefaces.org/" />
+                            <p:menuitem value="Contato" url="http://www.primefaces.org/themes.html" />
+                        </p:submenu>
+
+                    </p:menu>
+                </p:layoutUnit>
+                <p:layoutUnit position="center">
+                    Welcome to PrimeFaces
+                </p:layoutUnit>
+            </p:layout>
+
+        </h:body>
+
+    </f:view>
+</html>
+
